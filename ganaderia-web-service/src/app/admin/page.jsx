@@ -1,15 +1,14 @@
-import Link from "next/link";
-import React from 'react'
+"use client";
 
-const page = () => {
-  return (
-    <div>
-    <h1>Only logged in users can view this page</h1>
-    <p>
-      <Link href="/admin/dashboard">Dashboard</Link>
-    </p>
-  </div>
-  )
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function AdminPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/admin/dashboard");
+  }, [router]);
+
+  return null;
 }
-
-export default page

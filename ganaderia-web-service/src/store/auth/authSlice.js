@@ -1,69 +1,78 @@
-import { createSlice } from '@reduxjs/toolkit';
-import initialState from './initial';
+import { createSlice } from "@reduxjs/toolkit";
+import initialState from "./initial";
 
 export const authSlice = createSlice({
-    name: 'auth',
-    initialState,
+  name: "auth",
+  initialState,
 
-    reducers: {
-        setAuthPayload: (state, { payload }) => {
-            return {
-                ...state,
-                authPayload: payload
-            }
-        },
+  reducers: {
+    setAuthPayload: (state, { payload }) => {
+      return {
+        ...state,
+        authPayload: payload,
+      };
+    },
 
-        resetAuthPayload: (state, { payload }) => {
-            return {
-                ...state,
-                authPayload: null
-            }
-        },
+    resetAuthPayload: (state, { payload }) => {
+      return {
+        ...state,
+        authPayload: null,
+      };
+    },
 
+    setStatus: (state, { payload }) => {
+      return {
+        ...state,
+        status: payload,
+      };
+    },
 
-        setStatus: (state, { payload }) => {
-            return {
-                ...state,
-                status: payload
-            }
-        },
+    resetStatus: (state, { payload }) => {
+      return {
+        ...state,
+        status: null,
+      };
+    },
 
-        resetStatus: (state, { payload }) => {
-            return {
-                ...state,
-                status: null
-            }
-        },
+    setUserData: (state, { payload }) => {
+      return {
+        ...state,
+        userPayload: payload,
+      };
+    },
 
+    resetUserData: (state, { payload }) => {
+      return {
+        ...state,
+        userPayload: null,
+      };
+    },
 
-        setUserData: (state, { payload }) => {
-            return {
-                ...state,
-                userPayload: payload
-            }
-        },
+    // 🆕 NUEVO: Cambiar establecimiento (solo Admin)
+    setEstablecimientoActual: (state, { payload }) => {
+      return {
+        ...state,
+        establecimientoActual: payload,
+      };
+    },
 
-        resetUserData: (state, { payload }) => {
-            return {
-                ...state,
-                userPayload: null
-            }
-        },
-    }
+    resetEstablecimientoActual: (state) => {
+      return {
+        ...state,
+        establecimientoActual: null,
+      };
+    },
+  },
 });
 
-
-// Exportación .
+// Exportación
 export const {
-    //aqui va la carga de data
-    setAuthPayload,
-    resetAuthPayload,
-
-    //estado de autentificacion
-    setStatus,
-    resetStatus,
-
-    //datos del usuario
-    setUserData,
-    reseUserData
+  setAuthPayload,
+  resetAuthPayload,
+  setStatus,
+  resetStatus,
+  setUserData,
+  resetUserData,
+  setEstablecimientoActual, // 🆕 NUEVO
+  resetEstablecimientoActual, // 🆕 NUEVO
 } = authSlice.actions;

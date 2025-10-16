@@ -8,8 +8,6 @@ export const useBussinesMicroservicio = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // ⬅️ ELIMINADO: Sección PADRE completa
-
   //seccion MADRE
   const crearMadreHook = async (objectMadre) => {
     try {
@@ -60,7 +58,7 @@ export const useBussinesMicroservicio = () => {
     }
   };
 
-  // 🆕 NUEVO: Agregar peso diario del ternero
+  // NUEVO: Agregar peso diario del ternero
   const agregarPesoDiarioHook = async (id_ternero, pesoData) => {
     try {
       const { data, config, headers, status, statusText, request } =
@@ -73,7 +71,7 @@ export const useBussinesMicroservicio = () => {
     }
   };
 
-  // 🆕 NUEVO: Obtener historial completo de pesos
+  // NUEVO: Obtener historial completo de pesos
   const obtenerHistorialCompletoHook = async (id_ternero) => {
     try {
       const { data, config, headers, status, statusText, request } =
@@ -99,7 +97,7 @@ export const useBussinesMicroservicio = () => {
     }
   };
 
-  // ⬅️ NUEVO: Hook para múltiples eventos
+  // NUEVO: Hook para múltiples eventos
   const crearMultiplesEventosHook = async (objectMultiplesEventos) => {
     try {
       const { data, config, headers, status, statusText, request } =
@@ -143,7 +141,7 @@ export const useBussinesMicroservicio = () => {
     }
   };
 
-  // 🆕 NUEVO: Crear múltiples tratamientos
+  // NUEVO: Crear múltiples tratamientos
   const crearMultiplesTratamientosHook = async (
     objectMultiplesTratamientos
   ) => {
@@ -312,24 +310,96 @@ export const useBussinesMicroservicio = () => {
     }
   };
 
+  // ===== SECCIÓN USERS ADMIN =====
+  const obtenerUsuariosHook = async () => {
+    try {
+      const { data, config, headers, status, statusText, request } =
+        await businessApi.get(`/users`);
+      return { data, config, headers, status, statusText, request };
+    } catch (error) {
+      sessionLogOutMethod(dispatch);
+      logAuthMethod(dispatch, router);
+      return error.response?.status || error;
+    }
+  };
+
+  const obtenerEstadisticasUsuariosHook = async () => {
+    try {
+      const { data, config, headers, status, statusText, request } =
+        await businessApi.get(`/users/stats`);
+      return { data, config, headers, status, statusText, request };
+    } catch (error) {
+      sessionLogOutMethod(dispatch);
+      logAuthMethod(dispatch, router);
+      return error.response?.status || error;
+    }
+  };
+
+  const crearUsuarioHook = async (userData) => {
+    try {
+      const { data, config, headers, status, statusText, request } =
+        await businessApi.post(`/users`, userData);
+      return { data, config, headers, status, statusText, request };
+    } catch (error) {
+      sessionLogOutMethod(dispatch);
+      logAuthMethod(dispatch, router);
+      return error.response?.status || error;
+    }
+  };
+
+  const actualizarUsuarioHook = async (id, userData) => {
+    try {
+      const { data, config, headers, status, statusText, request } =
+        await businessApi.put(`/users/${id}`, userData);
+      return { data, config, headers, status, statusText, request };
+    } catch (error) {
+      sessionLogOutMethod(dispatch);
+      logAuthMethod(dispatch, router);
+      return error.response?.status || error;
+    }
+  };
+
+  const eliminarUsuarioHook = async (id) => {
+    try {
+      const { data, config, headers, status, statusText, request } =
+        await businessApi.delete(`/users/${id}`);
+      return { data, config, headers, status, statusText, request };
+    } catch (error) {
+      sessionLogOutMethod(dispatch);
+      logAuthMethod(dispatch, router);
+      return error.response?.status || error;
+    }
+  };
+
+  const toggleEstadoUsuarioHook = async (id) => {
+    try {
+      const { data, config, headers, status, statusText, request } =
+        await businessApi.put(`/users/${id}/toggle-status`, {});
+      return { data, config, headers, status, statusText, request };
+    } catch (error) {
+      sessionLogOutMethod(dispatch);
+      logAuthMethod(dispatch, router);
+      return error.response?.status || error;
+    }
+  };
+
   return {
-    // ⬅️ ELIMINADO: seccion PADRES
     //seccion MADRES
     crearMadreHook,
     obtenerMadreHook,
     //seccion TERNERO
     crearTerneroHook,
     obtenerTerneroHook,
-    // 🆕 NUEVO: Peso diario
+    // NUEVO: Peso diario
     agregarPesoDiarioHook,
     obtenerHistorialCompletoHook,
     //seccion EVENTO
     crearEventoHook,
-    crearMultiplesEventosHook, // ⬅️ NUEVO
+    crearMultiplesEventosHook,
     obtenerEventoHook,
     //seccion TRATAMIENTO
     crearTratamientoHook,
-    crearMultiplesTratamientosHook, // 🆕 NUEVO
+    crearMultiplesTratamientosHook,
     obtenerTratamientoHook,
     obtenerTratamientosPorTipoHook,
     obtenerTratamientosPorTurnoHook,
@@ -342,5 +412,12 @@ export const useBussinesMicroservicio = () => {
     obtenerDiarreaTerneroHook,
     actualizarCalostradoHook,
     obtenerResumenSaludHook,
+    // ===== USERS ADMIN =====
+    obtenerUsuariosHook,
+    obtenerEstadisticasUsuariosHook,
+    crearUsuarioHook,
+    actualizarUsuarioHook,
+    eliminarUsuarioHook,
+    toggleEstadoUsuarioHook,
   };
 };
