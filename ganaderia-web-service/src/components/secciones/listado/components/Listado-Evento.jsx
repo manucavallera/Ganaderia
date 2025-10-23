@@ -1,28 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useBussinesMicroservicio } from "@/hooks/bussines";
+import { useSelector } from "react-redux"; // ⬅️ NUEVO IMPORT
 
 const ListadoEvento = () => {
   const { obtenerEventoHook } = useBussinesMicroservicio();
+  const { establecimientoActual, userPayload } = useSelector(
+    (state) => state.auth
+  ); // ⬅️ NUEVO
+
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ NUEVO: Estado para modal de eliminación
+  // Estados para modal y alertas (mantener igual)
   const [modalEliminar, setModalEliminar] = useState({
     isOpen: false,
     evento: null,
   });
   const [alert, setAlert] = useState({ show: false, message: "", type: "" });
 
-  // ✅ NUEVO: Función para mostrar alertas
   const showAlert = (message, type = "success") => {
     setAlert({ show: true, message, type });
     setTimeout(() => setAlert({ show: false, message: "", type: "" }), 5000);
   };
 
+  // ⬅️ FUNCIÓN ACTUALIZADA
   const cargarEventosList = async () => {
     try {
       setLoading(true);
-      const resEventos = await obtenerEventoHook();
+
+      // ⬅️ NUEVA LÓGICA DE FILTRADO
+      let queryParams = "";
+
+      // Si es admin y seleccionó un establecimiento, filtrar por ese
+      if (userPayload?.rol === "admin" && establecimientoActual) {
+        queryParams = `id_establecimiento=${establecimientoActual}`;
+        console.log(
+          "🔍 Admin filtrando eventos por establecimiento:",
+          establecimientoActual
+        );
+      } else if (userPayload?.rol === "admin" && !establecimientoActual) {
+        console.log("🔍 Admin viendo TODOS los eventos");
+      } else {
+        console.log("🔍 Usuario no-admin, backend filtra automáticamente");
+      }
+
+      const resEventos = await obtenerEventoHook(queryParams);
       setEventos(resEventos?.data || []);
     } catch (error) {
       console.error("Error al cargar eventos:", error);
@@ -98,34 +120,51 @@ const ListadoEvento = () => {
 
   useEffect(() => {
     cargarEventosList();
-  }, []);
-
+  }, [establecimientoActual]); // ⬅️ NUEVA DEPENDENCIA
   // Función para formatear fecha
   const formatearFecha = (fecha) => {
     if (!fecha) return "Sin fecha";
     try {
-      return new Date(fecha).toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } catch {
+      // Extraer la fecha directamente del string sin parsear
+      const fechaStr = fecha.split("T")[0]; // "2025-05-02"
+      const [year, month, day] = fechaStr.split("-");
+
+      // Convertir mes numérico a nombre corto
+      const meses = [
+        "ene",
+        "feb",
+        "mar",
+        "abr",
+        "may",
+        "jun",
+        "jul",
+        "ago",
+        "sep",
+        "oct",
+        "nov",
+        "dic",
+      ];
+      const mesNombre = meses[parseInt(month) - 1];
+
+      return `${parseInt(day)} ${mesNombre} ${year}`;
+    } catch (error) {
+      console.error("Error al formatear fecha:", error);
       return fecha;
     }
   };
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
-      <div className='relative flex flex-col w-full h-full overflow-scroll text-slate-300 bg-slate-800 shadow-lg rounded-xl p-6'>
-        {/* ✅ CORREGIDO: Título con gradiente */}
-        <h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent'>
+      <div className='relative flex flex-col w-full h-full overflow-scroll text-slate-300 bg-slate-800 shadow-lg rounded-xl p-3 sm:p-4 md:p-6'>
+        {/* ✅ Título con gradiente - Responsive */}
+        <h2 className='text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent'>
           Listado de Eventos
         </h2>
 
-        {/* ✅ NUEVO: Alert */}
+        {/* ✅ Alert - Responsive */}
         {alert.show && (
           <div
-            className={`mb-4 p-4 rounded-lg text-center font-medium ${
+            className={`mb-3 sm:mb-4 p-3 sm:p-4 rounded-lg text-center font-medium text-sm sm:text-base ${
               alert.type === "error"
                 ? "bg-red-500 text-white"
                 : "bg-green-500 text-white"
@@ -135,31 +174,34 @@ const ListadoEvento = () => {
           </div>
         )}
 
-        {/* Contador de resultados */}
-        <div className='mb-4 text-sm text-slate-400'>
+        {/* Contador de resultados - Responsive */}
+        <div className='mb-3 sm:mb-4 text-xs sm:text-sm text-slate-400'>
           {loading
             ? "Cargando..."
             : `${eventos.length} evento(s) encontrado(s)`}
         </div>
 
-        <div className='overflow-x-auto'>
-          <table className='w-full text-left table-auto min-w-max bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0 rounded-lg shadow-2xl'>
+        {/* Tabla Responsive - Scroll horizontal en mobile */}
+        <div className='overflow-x-auto -mx-3 sm:mx-0 shadow-2xl rounded-lg'>
+          <div className='inline-block min-w-full align-middle'>
+            <div className='overflow-hidden'>
+              <table className='min-w-full text-left table-auto bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0'>
             <thead className='bg-slate-900'>
               <tr>
-                <th className='px-4 py-3 border-b border-slate-600 bg-slate-700'>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700 text-xs sm:text-sm whitespace-nowrap'>
                   ID
                 </th>
-                <th className='px-4 py-3 border-b border-slate-600 bg-slate-700'>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700 text-xs sm:text-sm whitespace-nowrap'>
                   Información del Evento
                 </th>
-                <th className='px-4 py-3 border-b border-slate-600 bg-slate-700'>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700 text-xs sm:text-sm whitespace-nowrap'>
                   Terneros Involucrados
                 </th>
-                <th className='px-4 py-3 border-b border-slate-600 bg-slate-700'>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700 text-xs sm:text-sm whitespace-nowrap'>
                   Madres Involucradas
                 </th>
                 {/* ✅ NUEVA COLUMNA */}
-                <th className='px-4 py-3 border-b border-slate-600 bg-slate-700'>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700 text-xs sm:text-sm whitespace-nowrap'>
                   Acciones
                 </th>
               </tr>
@@ -401,49 +443,51 @@ const ListadoEvento = () => {
               )}
             </tbody>
           </table>
+            </div>
+          </div>
         </div>
 
-        {/* Resumen estadístico */}
-        <div className='mt-6 grid grid-cols-1 md:grid-cols-3 gap-4'>
-          <div className='bg-slate-700 p-4 rounded-lg text-center'>
-            <h3 className='text-2xl font-bold text-purple-400'>
+        {/* Resumen estadístico - Responsive */}
+        <div className='mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4'>
+          <div className='bg-slate-700 p-3 sm:p-4 rounded-lg text-center'>
+            <h3 className='text-xl sm:text-2xl font-bold text-purple-400'>
               {eventos.length}
             </h3>
-            <p className='text-sm text-slate-400'>Total Eventos</p>
+            <p className='text-xs sm:text-sm text-slate-400'>Total Eventos</p>
           </div>
-          <div className='bg-slate-700 p-4 rounded-lg text-center'>
-            <h3 className='text-2xl font-bold text-green-400'>
+          <div className='bg-slate-700 p-3 sm:p-4 rounded-lg text-center'>
+            <h3 className='text-xl sm:text-2xl font-bold text-green-400'>
               {eventos.reduce(
                 (total, evento) => total + (evento?.terneros?.length || 0),
                 0
               )}
             </h3>
-            <p className='text-sm text-slate-400'>Terneros Involucrados</p>
+            <p className='text-xs sm:text-sm text-slate-400'>Terneros Involucrados</p>
           </div>
-          <div className='bg-slate-700 p-4 rounded-lg text-center'>
-            <h3 className='text-2xl font-bold text-blue-400'>
+          <div className='bg-slate-700 p-3 sm:p-4 rounded-lg text-center'>
+            <h3 className='text-xl sm:text-2xl font-bold text-blue-400'>
               {eventos.reduce(
                 (total, evento) => total + (evento?.madres?.length || 0),
                 0
               )}
             </h3>
-            <p className='text-sm text-slate-400'>Madres Involucradas</p>
+            <p className='text-xs sm:text-sm text-slate-400'>Madres Involucradas</p>
           </div>
         </div>
 
-        {/* ✅ NUEVO: Modal de Eliminación */}
+        {/* ✅ Modal de Eliminación - Responsive */}
         {modalEliminar.isOpen && (
-          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-            <div className='bg-white p-6 rounded-lg shadow-xl w-full max-w-md'>
+          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4'>
+            <div className='bg-white p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-md mx-2 sm:mx-4'>
               <div className='flex items-center gap-3 mb-4'>
-                <span className='text-red-600 text-2xl'>⚠️</span>
-                <h3 className='text-lg font-bold text-gray-800'>
+                <span className='text-red-600 text-xl sm:text-2xl'>⚠️</span>
+                <h3 className='text-base sm:text-lg font-bold text-gray-800'>
                   Confirmar Eliminación
                 </h3>
               </div>
 
               <div className='mb-4'>
-                <p className='text-gray-600 mb-2'>
+                <p className='text-sm sm:text-base text-gray-600 mb-2'>
                   ¿Estás seguro de que quieres eliminar este evento?
                 </p>
                 <div className='bg-gray-50 p-3 rounded border-l-4 border-red-500'>

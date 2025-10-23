@@ -1,29 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { useBussinesMicroservicio } from "@/hooks/bussines";
+import { useSelector } from "react-redux"; // ⬅️ NUEVO IMPORT
 
 const ListadoDiarreaTernero = () => {
   const { obtenerDiarreaTerneroHook } = useBussinesMicroservicio();
+  const { establecimientoActual, userPayload } = useSelector(
+    (state) => state.auth
+  ); // ⬅️ NUEVO
+
   const [diarreasTernero, setDiarreasTerneros] = useState([]);
   const [filtroSeveridad, setFiltroSeveridad] = useState("");
   const [cargando, setCargando] = useState(true);
 
-  // ✅ NUEVO: Estado para modal de eliminación
+  // Estados para modal y alertas (mantener igual)
   const [modalEliminar, setModalEliminar] = useState({
     isOpen: false,
     diarrea: null,
   });
   const [alert, setAlert] = useState({ show: false, message: "", type: "" });
 
-  // ✅ NUEVO: Función para mostrar alertas
   const showAlert = (message, type = "success") => {
     setAlert({ show: true, message, type });
     setTimeout(() => setAlert({ show: false, message: "", type: "" }), 5000);
   };
 
+  // ⬅️ FUNCIÓN ACTUALIZADA
   const cargarDiarreaTerneroList = async () => {
     setCargando(true);
     try {
-      const resDiarreaTernero = await obtenerDiarreaTerneroHook();
+      // ⬅️ NUEVA LÓGICA DE FILTRADO
+      let queryParams = "";
+
+      // Si es admin y seleccionó un establecimiento, filtrar por ese
+      if (userPayload?.rol === "admin" && establecimientoActual) {
+        queryParams = `id_establecimiento=${establecimientoActual}`;
+        console.log(
+          "🔍 Admin filtrando diarreas por establecimiento:",
+          establecimientoActual
+        );
+      } else if (userPayload?.rol === "admin" && !establecimientoActual) {
+        console.log("🔍 Admin viendo TODAS las diarreas");
+      } else {
+        console.log("🔍 Usuario no-admin, backend filtra automáticamente");
+      }
+
+      const resDiarreaTernero = await obtenerDiarreaTerneroHook(queryParams);
       setDiarreasTerneros(resDiarreaTernero?.data || []);
     } catch (error) {
       console.error("Error al cargar diarreas:", error);
@@ -32,7 +53,6 @@ const ListadoDiarreaTernero = () => {
       setCargando(false);
     }
   };
-
   // ✅ NUEVO: Función para abrir modal de eliminar
   const abrirModalEliminar = (diarrea) => {
     setModalEliminar({
@@ -102,7 +122,7 @@ const ListadoDiarreaTernero = () => {
 
   useEffect(() => {
     cargarDiarreaTerneroList();
-  }, []);
+  }, [establecimientoActual]); // ⬅️ NUEVA DEPENDENCIA
 
   // Filtrar por severidad
   const diarreasFiltradas = filtroSeveridad
@@ -165,31 +185,31 @@ const ListadoDiarreaTernero = () => {
   }
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-gray-100 p-4'>
+    <div className='flex items-center justify-center min-h-screen bg-gray-100 p-2 sm:p-4'>
       <div className='relative flex flex-col w-full max-w-7xl overflow-hidden text-slate-300 bg-slate-800 shadow-lg rounded-xl'>
-        {/* HEADER CON FILTROS */}
-        <div className='p-6 bg-slate-900 border-b border-slate-700'>
+        {/* HEADER CON FILTROS - Responsive */}
+        <div className='p-3 sm:p-4 md:p-6 bg-slate-900 border-b border-slate-700'>
           <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
             <div>
-              {/* ✅ CORREGIDO: Título con gradiente */}
-              <h2 className='text-3xl font-bold bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent'>
+              {/* ✅ CORREGIDO: Título con gradiente responsive */}
+              <h2 className='text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent'>
                 🏥 Registro de Diarreas - Terneros
               </h2>
-              <p className='text-slate-400 mt-1'>
+              <p className='text-xs sm:text-sm text-slate-400 mt-1'>
                 Total de registros: {diarreasTernero.length} | Mostrando:{" "}
                 {diarreasFiltradas.length}
               </p>
             </div>
 
-            {/* FILTRO POR SEVERIDAD */}
-            <div className='flex items-center gap-3'>
-              <label className='text-sm font-medium text-slate-300'>
+            {/* FILTRO POR SEVERIDAD - Responsive */}
+            <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3'>
+              <label className='text-xs sm:text-sm font-medium text-slate-300'>
                 Filtrar por severidad:
               </label>
               <select
                 value={filtroSeveridad}
                 onChange={(e) => setFiltroSeveridad(e.target.value)}
-                className='px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                className='px-2 sm:px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-xs sm:text-sm text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500'
               >
                 <option value=''>Todas las severidades</option>
                 <option value='Leve'>🟢 Leve</option>
@@ -199,17 +219,17 @@ const ListadoDiarreaTernero = () => {
               </select>
               <button
                 onClick={cargarDiarreaTerneroList}
-                className='px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors'
+                className='px-3 sm:px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-xs sm:text-sm'
               >
                 🔄 Actualizar
               </button>
             </div>
           </div>
 
-          {/* ✅ NUEVO: Alert */}
+          {/* ✅ Alert - Responsive */}
           {alert.show && (
             <div
-              className={`mt-4 p-4 rounded-lg text-center font-medium ${
+              className={`mt-3 sm:mt-4 p-3 sm:p-4 rounded-lg text-center font-medium text-sm sm:text-base ${
                 alert.type === "error"
                   ? "bg-red-500 text-white"
                   : "bg-green-500 text-white"
@@ -220,31 +240,33 @@ const ListadoDiarreaTernero = () => {
           )}
         </div>
 
-        {/* TABLA RESPONSIVE */}
-        <div className='overflow-auto max-h-96'>
-          <table className='w-full text-left table-auto min-w-max bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800'>
+        {/* TABLA RESPONSIVE - Scroll horizontal en mobile */}
+        <div className='overflow-x-auto max-h-[600px]'>
+          <div className='inline-block min-w-full align-middle'>
+            <div className='overflow-hidden'>
+              <table className='min-w-full text-left table-auto bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800'>
             <thead className='bg-slate-900 sticky top-0'>
               <tr>
-                <th className='px-4 py-3 border-b border-slate-600'>
-                  <p className='text-sm font-medium'>📊 Episodio</p>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600'>
+                  <p className='text-xs sm:text-sm font-medium whitespace-nowrap'>📊 Episodio</p>
                 </th>
-                <th className='px-4 py-3 border-b border-slate-600'>
-                  <p className='text-sm font-medium'>📅 Fecha</p>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600'>
+                  <p className='text-xs sm:text-sm font-medium whitespace-nowrap'>📅 Fecha</p>
                 </th>
-                <th className='px-4 py-3 border-b border-slate-600'>
-                  <p className='text-sm font-medium'>⚠️ Severidad</p>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600'>
+                  <p className='text-xs sm:text-sm font-medium whitespace-nowrap'>⚠️ Severidad</p>
                 </th>
-                <th className='px-4 py-3 border-b border-slate-600'>
-                  <p className='text-sm font-medium'>🐄 Datos del Ternero</p>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600'>
+                  <p className='text-xs sm:text-sm font-medium whitespace-nowrap'>🐄 Datos del Ternero</p>
                 </th>
-                <th className='px-4 py-3 border-b border-slate-600'>
-                  <p className='text-sm font-medium'>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600'>
+                  <p className='text-xs sm:text-sm font-medium whitespace-nowrap'>
                     📝 Observaciones Médicas
                   </p>
                 </th>
                 {/* ✅ NUEVA COLUMNA */}
-                <th className='px-4 py-3 border-b border-slate-600'>
-                  <p className='text-sm font-medium'>Acciones</p>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600'>
+                  <p className='text-xs sm:text-sm font-medium whitespace-nowrap'>Acciones</p>
                 </th>
               </tr>
             </thead>
@@ -399,21 +421,23 @@ const ListadoDiarreaTernero = () => {
               )}
             </tbody>
           </table>
+            </div>
+          </div>
         </div>
 
-        {/* FOOTER CON ESTADÍSTICAS */}
+        {/* FOOTER CON ESTADÍSTICAS - Responsive */}
         {diarreasTernero.length > 0 && (
-          <div className='p-4 bg-slate-900 border-t border-slate-700'>
-            <div className='grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm'>
+          <div className='p-3 sm:p-4 bg-slate-900 border-t border-slate-700'>
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center text-xs sm:text-sm'>
               <div>
-                <p className='text-slate-400'>Total Episodios</p>
-                <p className='text-xl font-bold text-indigo-400'>
+                <p className='text-slate-400 text-xs sm:text-sm'>Total Episodios</p>
+                <p className='text-lg sm:text-xl font-bold text-indigo-400'>
                   {diarreasTernero.length}
                 </p>
               </div>
               <div>
-                <p className='text-slate-400'>Severidad Crítica</p>
-                <p className='text-xl font-bold text-red-400'>
+                <p className='text-slate-400 text-xs sm:text-sm'>Severidad Crítica</p>
+                <p className='text-lg sm:text-xl font-bold text-red-400'>
                   {
                     diarreasTernero.filter((d) => d.severidad === "Crítica")
                       .length
@@ -421,8 +445,8 @@ const ListadoDiarreaTernero = () => {
                 </p>
               </div>
               <div>
-                <p className='text-slate-400'>Severidad Severa</p>
-                <p className='text-xl font-bold text-orange-400'>
+                <p className='text-slate-400 text-xs sm:text-sm'>Severidad Severa</p>
+                <p className='text-lg sm:text-xl font-bold text-orange-400'>
                   {
                     diarreasTernero.filter((d) => d.severidad === "Severa")
                       .length
@@ -430,8 +454,8 @@ const ListadoDiarreaTernero = () => {
                 </p>
               </div>
               <div>
-                <p className='text-slate-400'>Casos Recurrentes</p>
-                <p className='text-xl font-bold text-yellow-400'>
+                <p className='text-slate-400 text-xs sm:text-sm'>Casos Recurrentes</p>
+                <p className='text-lg sm:text-xl font-bold text-yellow-400'>
                   {diarreasTernero.filter((d) => d.numero_episodio >= 3).length}
                 </p>
               </div>
@@ -439,13 +463,13 @@ const ListadoDiarreaTernero = () => {
           </div>
         )}
 
-        {/* ✅ NUEVO: Modal de Eliminación */}
+        {/* ✅ Modal de Eliminación - Responsive */}
         {modalEliminar.isOpen && (
-          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-            <div className='bg-white p-6 rounded-lg shadow-xl w-full max-w-md'>
+          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4'>
+            <div className='bg-white p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-md mx-2 sm:mx-4'>
               <div className='flex items-center gap-3 mb-4'>
-                <span className='text-red-600 text-2xl'>⚠️</span>
-                <h3 className='text-lg font-bold text-gray-800'>
+                <span className='text-red-600 text-xl sm:text-2xl'>⚠️</span>
+                <h3 className='text-base sm:text-lg font-bold text-gray-800'>
                   Confirmar Eliminación
                 </h3>
               </div>

@@ -1,8 +1,12 @@
 import { useBussinesMicroservicio } from "@/hooks/bussines";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux"; // 🆕 AGREGAR ESTA LÍNEA
 
 const ListadoTernero = () => {
   // ✅ USAR HOOKS DISPONIBLES + NUEVOS
+  const { userPayload, establecimientoActual } = useSelector(
+    (state) => state.auth
+  );
   const {
     obtenerTerneroHook,
     agregarPesoDiarioHook,
@@ -76,7 +80,17 @@ const ListadoTernero = () => {
   const cargarTerneroLista = async () => {
     try {
       setLoading(true);
-      const resTerneros = await obtenerTerneroHook();
+
+      // 🆕 AGREGAR LÓGICA DE FILTRADO
+      let queryParams = "";
+
+      // Si es Admin Y seleccionó un establecimiento específico
+      if (userPayload?.rol === "admin" && establecimientoActual) {
+        queryParams = `id_establecimiento=${establecimientoActual}`;
+      }
+      // Si NO es admin, el backend filtra automáticamente
+
+      const resTerneros = await obtenerTerneroHook(queryParams); // 🆕 PASAR queryParams
       setTerneros(resTerneros?.data || []);
     } catch (error) {
       console.error("Error al cargar terneros:", error);
@@ -89,7 +103,7 @@ const ListadoTernero = () => {
 
   useEffect(() => {
     cargarTerneroLista();
-  }, []);
+  }, [establecimientoActual]);
 
   // 🆕 NUEVO: Abrir modal de peso diario mejorado
   const abrirModalPesoDiario = (ternero) => {
@@ -444,15 +458,15 @@ const ListadoTernero = () => {
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
-      <div className='relative flex flex-col w-full h-full overflow-scroll text-slate-300 bg-slate-800 shadow-lg rounded-xl p-6'>
-        <h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent'>
+      <div className='relative flex flex-col w-full h-full overflow-scroll text-slate-300 bg-slate-800 shadow-lg rounded-xl p-3 sm:p-4 md:p-6'>
+        <h2 className='text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 text-center bg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent'>
           Listado de Terneros - Control de Crecimiento
         </h2>
 
-        {/* Alert */}
+        {/* Alert - Responsive */}
         {alert.show && (
           <div
-            className={`mb-4 p-4 rounded-lg text-center font-medium ${
+            className={`mb-3 sm:mb-4 p-3 sm:p-4 rounded-lg text-center font-medium text-sm sm:text-base ${
               alert.type === "error"
                 ? "bg-red-500 text-white"
                 : "bg-green-500 text-white"
@@ -462,57 +476,60 @@ const ListadoTernero = () => {
           </div>
         )}
 
-        {/* Contador de resultados */}
-        <div className='mb-4 text-sm text-slate-400'>
+        {/* Contador de resultados - Responsive */}
+        <div className='mb-3 sm:mb-4 text-xs sm:text-sm text-slate-400'>
           {loading
             ? "Cargando..."
             : `${terneros.length} ternero(s) encontrado(s)`}
         </div>
 
-        <div className='overflow-x-auto'>
-          <table className='w-full text-left table-auto min-w-max bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0 rounded-lg shadow-2xl'>
+        {/* Tabla Responsive - Scroll horizontal en mobile */}
+        <div className='overflow-x-auto -mx-3 sm:mx-0 shadow-2xl rounded-lg'>
+          <div className='inline-block min-w-full align-middle'>
+            <div className='overflow-hidden'>
+              <table className='min-w-full text-left table-auto bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0'>
             <thead className='bg-slate-900'>
               <tr>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   ID
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   RP
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Sexo
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   P. Nacer
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   P. Ideal
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Último Peso
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Días de Vida
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Pesos Oficiales
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Rendimiento
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Historial
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Acciones
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Madre
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Estado
                 </th>
-                <th className='px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs'>
+                <th className='px-2 sm:px-3 py-2 border-b border-slate-600 bg-slate-700 text-xs whitespace-nowrap'>
                   Calostrado
                 </th>
               </tr>
@@ -778,15 +795,17 @@ const ListadoTernero = () => {
               )}
             </tbody>
           </table>
+            </div>
+          </div>
         </div>
 
-        {/* Modal de Peso Diario Mejorado */}
+        {/* Modal de Peso Diario Mejorado - Responsive */}
         {modalPesoDiario.isOpen && (
-          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-            <div className='bg-white p-6 rounded-lg shadow-xl w-full max-w-md'>
+          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4'>
+            <div className='bg-white p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-md mx-2 sm:mx-4 max-h-[95vh] overflow-y-auto'>
               <div className='flex items-center gap-3 mb-4'>
-                <span className='text-2xl'>⚖️</span>
-                <h3 className='text-lg font-bold text-gray-800'>
+                <span className='text-xl sm:text-2xl'>⚖️</span>
+                <h3 className='text-base sm:text-lg font-bold text-gray-800'>
                   Registrar Peso Diario
                 </h3>
               </div>
