@@ -81,7 +81,7 @@ const ListadoMadre = () => {
       console.log("🗑️ Eliminando madre:", modalEliminar.madre.id_madre);
 
       const response = await fetch(
-        `http://localhost:3000/madres/delete-madre-by-id/${modalEliminar.madre.id_madre}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/madres/delete-madre-by-id/${modalEliminar.madre.id_madre}`,
         {
           method: "DELETE",
           headers: {

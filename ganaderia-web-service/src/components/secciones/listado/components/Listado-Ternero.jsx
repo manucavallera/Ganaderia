@@ -277,7 +277,7 @@ const ListadoTernero = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/terneros/patch-ternero-by-id/${modalPesoOficial.ternero.id_ternero}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/terneros/patch-ternero-by-id/${modalPesoOficial.ternero.id_ternero}`,
         {
           method: "PATCH",
           headers: {
@@ -315,7 +315,7 @@ const ListadoTernero = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/terneros/delete-ternero-by-id/${modalEliminar.ternero.id_ternero}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/terneros/delete-ternero-by-id/${modalEliminar.ternero.id_ternero}`,
         {
           method: "DELETE",
           headers: {

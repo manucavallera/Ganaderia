@@ -72,7 +72,7 @@ const AdminPanel = () => {
   const [alert, setAlert] = useState({ show: false, message: "", type: "" });
   const [datosComparativos, setDatosComparativos] = useState([]); // ⬅️ NUEVO
 
-  const API_URL = "http://localhost:3001";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
   // ✅ Verificar que estamos en el navegador antes de acceder a localStorage
   const getToken = () => {

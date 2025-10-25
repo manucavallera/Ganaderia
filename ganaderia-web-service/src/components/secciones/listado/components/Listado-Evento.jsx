@@ -82,7 +82,7 @@ const ListadoEvento = () => {
       console.log("🗑️ Eliminando evento:", modalEliminar.evento.id_evento);
 
       const response = await fetch(
-        `http://localhost:3000/eventos/delete-evento-by-id/${modalEliminar.evento.id_evento}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/eventos/delete-evento-by-id/${modalEliminar.evento.id_evento}`,
         {
           method: "DELETE",
           headers: {

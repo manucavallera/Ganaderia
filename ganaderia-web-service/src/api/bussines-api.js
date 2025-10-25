@@ -10,6 +10,9 @@ const businessApi = axios.create({
 });
 
 function cargarToken() {
+    // ✅ Verificar que estamos en el navegador
+    if (typeof window === "undefined") return null;
+    
     const tokenString = localStorage.getItem("token"); // Obtenemos el token desde localStorage
 
     if (tokenString) {
