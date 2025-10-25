@@ -21,7 +21,8 @@ export const useAuthSession = () => {
 
             const { data, config, headers, status, statusText, request } = await securityApi.post(`/auth/login`, objectUsuario);
            
-            if (data) {
+            // ✅ Verificar que estamos en el navegador antes de usar localStorage
+            if (data && typeof window !== "undefined") {
                 localStorage.clear();
                 localStorage.setItem('token',data?.token);
                 localStorage.setItem('userSelected',JSON.stringify(data?.user));
@@ -32,7 +33,10 @@ export const useAuthSession = () => {
             dispatch(setUserData(data?.user));
             return { data, config, headers, status, statusText, request };
         } catch (error) {
-            localStorage.clear();
+            // ✅ Verificar que estamos en el navegador antes de usar localStorage
+            if (typeof window !== "undefined") {
+                localStorage.clear();
+            }
             dispatch(setAuthPayload({}));
             dispatch(setStatus("not-authenticated"));
 

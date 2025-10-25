@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData, setAuthPayload, setStatus } from "@/store/auth"; // ✅ AGREGAR ESTE IMPORT
 import { useBussinesMicroservicio } from "@/hooks/bussines";
@@ -12,7 +12,10 @@ const ListadoRodeo = () => {
   );
 
   // ✅ AGREGAR: Cargar desde localStorage
-  useLayoutEffect(() => {
+  useEffect(() => {
+    // Verificar que estamos en el cliente (navegador)
+    if (typeof window === "undefined") return;
+
     const userSelected = localStorage.getItem("userSelected");
     const token = localStorage.getItem("token");
 

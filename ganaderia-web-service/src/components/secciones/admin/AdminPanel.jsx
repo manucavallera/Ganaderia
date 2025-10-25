@@ -74,7 +74,11 @@ const AdminPanel = () => {
 
   const API_URL = "http://localhost:3001";
 
-  const getToken = () => localStorage.getItem("token");
+  // ✅ Verificar que estamos en el navegador antes de acceder a localStorage
+  const getToken = () => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("token");
+  };
 
   const showAlert = (message, type = "success") => {
     setAlert({ show: true, message, type });

@@ -49,12 +49,18 @@ export default function AuthContextProvider({ children }) {
   }, []); // Solo se ejecuta una vez al montar el componente
 
   const login = useCallback(function (authTokens) {
-    window.localStorage.setItem(AUTH_TOKENS_KEY, authTokens);
+    // ✅ Verificar que estamos en el navegador
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(AUTH_TOKENS_KEY, authTokens);
+    }
     setAuthTokens(authTokens);
   }, []);
 
   const logout = useCallback(function () {
-    window.localStorage.removeItem(AUTH_TOKENS_KEY);
+    // ✅ Verificar que estamos en el navegador
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(AUTH_TOKENS_KEY);
+    }
     setAuthTokens(null);
   }, []);
 

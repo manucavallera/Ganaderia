@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useBussinesMicroservicio } from "@/hooks/bussines";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,7 +19,10 @@ const FormularioDiarreaTernero = ({ setStep }) => {
 
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    // Verificar que estamos en el cliente (navegador)
+    if (typeof window === "undefined") return;
+
     const userSelected = localStorage.getItem("userSelected");
     const token = localStorage.getItem("token");
 
