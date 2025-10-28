@@ -90,12 +90,12 @@ const Registercomponent = () => {
         <div className='h-[calc(100vh-7rem)] flex justify-center items-center'>
           <form
             onSubmit={onSubmit}
-            className='w-1/4 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
+            className='w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3 bg-white shadow-md rounded px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-6 sm:pb-8 mb-4 mx-3 sm:mx-0'
           >
-            <h1 className='font-bold text-4xl mb-4 text-gray-700'>Registro</h1>
+            <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4 text-gray-700'>Registro</h1>
             <label
               htmlFor='username'
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block text-gray-700 text-xs sm:text-sm font-bold mb-1 sm:mb-2'
             >
               Username
             </label>
@@ -111,14 +111,14 @@ const Registercomponent = () => {
                 maxLength: 20,
                 minLength: 2,
               })}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2'
+              className='shadow appearance-none border rounded w-full py-2 px-2 sm:px-3 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline mb-2'
             />
             {errors.username && (
               <p className='text-red-500 text-xs'>{errors.username.message}</p>
             )}
             <label
               htmlFor='email'
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block text-gray-700 text-xs sm:text-sm font-bold mb-1 sm:mb-2'
             >
               Email
             </label>
@@ -134,14 +134,14 @@ const Registercomponent = () => {
                 maxLength: 50,
                 minLength: 5,
               })}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2'
+              className='shadow appearance-none border rounded w-full py-2 px-2 sm:px-3 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline mb-2'
             />
             {errors.email && (
               <p className='text-red-500 text-xs'>{errors.email.message}</p>
             )}
             <label
               htmlFor='password'
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block text-gray-700 text-xs sm:text-sm font-bold mb-1 sm:mb-2'
             >
               Password
             </label>
@@ -156,14 +156,14 @@ const Registercomponent = () => {
                 maxLength: 20,
                 minLength: 8,
               })}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2'
+              className='shadow appearance-none border rounded w-full py-2 px-2 sm:px-3 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline mb-2'
             />
             {errors.password && (
               <p className='text-red-500 text-xs'>{errors.password.message}</p>
             )}
             <label
               htmlFor='confirmPassword'
-              className='block text-gray-700 text-sm font-bold mb-2'
+              className='block text-gray-700 text-xs sm:text-sm font-bold mb-1 sm:mb-2'
             >
               Confirm Password
             </label>
@@ -178,7 +178,7 @@ const Registercomponent = () => {
                 maxLength: 20,
                 minLength: 8,
               })}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2'
+              className='shadow appearance-none border rounded w-full py-2 px-2 sm:px-3 text-gray-700 text-sm leading-tight focus:outline-none focus:shadow-outline mb-2'
             />
             {errors.confirmPassword && (
               <p className='text-red-500 text-xs'>
@@ -186,7 +186,7 @@ const Registercomponent = () => {
               </p>
             )}
             <button
-              className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+              className='w-full py-2 sm:py-3 bg-indigo-600 text-white text-sm sm:text-base font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500'
               type='submit'
             >
               Register
@@ -198,7 +198,7 @@ const Registercomponent = () => {
                   userAlert.message.includes("CONTRASEÑAS")
                     ? "bg-red-500"
                     : "bg-green-500"
-                } text-white text-center text-sm font-semibold p-2 rounded-md shadow-md mt-2`}
+                } text-white text-center text-xs sm:text-sm font-semibold p-2 rounded-md shadow-md mt-2`}
               >
                 {userAlert?.message}
               </p>

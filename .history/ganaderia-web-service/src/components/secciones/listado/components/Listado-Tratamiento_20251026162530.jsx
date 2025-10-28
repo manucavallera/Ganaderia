@@ -441,7 +441,7 @@ const ListadoTratamiento = () => {
         )}
 
         {/* ✅ CORREGIDO: Agregado div contenedor y corregida clase CSS */}
-        <div className='mb-4 sm:mb-6'>
+        <div className='mb-6'>
           <h2 className='text-xl sm:text-2xl md:text-3xl font-boldbg-gradient-to-r from-indigo-400 to-indigo-600 bg-clip-text text-transparent'>
             💊 Listado de Tratamientos
           </h2>
@@ -471,33 +471,29 @@ const ListadoTratamiento = () => {
               .map(([tipo, cantidad]) => (
                 <div
                   key={tipo}
-                  className={`p-3 sm:p-4 rounded-lg ${getTipoEnfermedadColor(
-                    tipo
-                  )
+                  className={`p-4 rounded-lg ${getTipoEnfermedadColor(tipo)
                     .replace("text-", "bg-")
                     .replace("-900", "-600")}`}
                 >
-                  <h3 className='text-xs sm:text-sm font-medium'>
+                  <h3 className='text-sm font-medium text-white opacity-90'>
                     {getTipoEnfermedadEmoji(tipo)}{" "}
                     {tipo.length > 15 ? tipo.substring(0, 15) + "..." : tipo}
                   </h3>
-                  <p className='text-lg sm:text-xl md:text-2xl font-bold text-white'>
-                    {cantidad}
-                  </p>
+                  <p className='text-2xl font-bold text-white'>{cantidad}</p>
                 </div>
               ))}
           </div>
         )}
 
         {/* Panel de Filtros */}
-        <div className='mb-4 sm:mb-6 p-3 sm:p-4 bg-slate-700 rounded-lg'>
-          <h3 className='text-base sm:text-lg font-semibold mb-3 text-indigo-300'>
+        <div className='mb-6 p-4 bg-slate-700 rounded-lg'>
+          <h3 className='text-lg font-semibold mb-3 text-indigo-300'>
             🔍 Filtros
           </h3>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             {/* Filtro por Tipo de Enfermedad - AHORA ES INPUT LIBRE */}
             <div>
-              <label className='block text-xs sm:text-sm font-medium mb-2'>
+              <label className='block text-sm font-medium mb-2'>
                 Tipo de Enfermedad
               </label>
               <input
@@ -507,7 +503,7 @@ const ListadoTratamiento = () => {
                   handleFiltroChange("tipo_enfermedad", e.target.value)
                 }
                 placeholder='Ej: diarrea, respiratorio, etc...'
-                className='w-full px-2 sm:px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 placeholder-slate-400'
+                className='w-full px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white focus:ring-2 focus:ring-indigo-500 placeholder-slate-400'
               />
               <p className='text-xs text-slate-400 mt-1'>
                 💡 Busca por cualquier palabra (diarrea, respiratorio, etc.)
@@ -516,13 +512,11 @@ const ListadoTratamiento = () => {
 
             {/* Filtro por Turno */}
             <div>
-              <label className='block text-xs sm:text-sm font-medium mb-2'>
-                Turno
-              </label>
+              <label className='block text-sm font-medium mb-2'>Turno</label>
               <select
                 value={filtros.turno}
                 onChange={(e) => handleFiltroChange("turno", e.target.value)}
-                className='w-full px-2 sm:px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500'
+                className='w-full px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white focus:ring-2 focus:ring-indigo-500'
               >
                 {turnosTratamiento.map((turno) => (
                   <option key={turno.value} value={turno.value}>
@@ -536,7 +530,7 @@ const ListadoTratamiento = () => {
             <div className='flex items-end'>
               <button
                 onClick={limpiarFiltros}
-                className='w-full px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm rounded-md transition-colors'
+                className='w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors'
               >
                 🗑️ Limpiar Filtros
               </button>
@@ -544,7 +538,7 @@ const ListadoTratamiento = () => {
           </div>
 
           {/* Contador de resultados */}
-          <div className='mt-3 text-xs sm:text-sm text-slate-400'>
+          <div className='mt-3 text-sm text-slate-400'>
             {loading
               ? "⏳ Cargando..."
               : `📊 ${tratamientos.length} tratamiento(s) encontrado(s)`}
@@ -557,202 +551,183 @@ const ListadoTratamiento = () => {
         </div>
 
         {/* Tabla de Tratamientos - SIN COLUMNA APLICACIONES */}
-        <div className='overflow-x-auto -mx-3 sm:mx-0'>
-          <div className='inline-block min-w-full align-middle'>
-            <div className='overflow-hidden'>
-              <table className='w-full text-left table-auto min-w-max bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0 rounded-lg shadow-2xl'>
-                <thead className='bg-slate-900'>
-                  <tr>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        ID
+        <div className='overflow-x-auto'>
+          <table className='w-full text-left table-auto min-w-max bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0 rounded-lg shadow-2xl'>
+            <thead className='bg-slate-900'>
+              <tr>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>ID</p>
+                </th>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>Nombre</p>
+                </th>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>
+                    Descripción
+                  </p>
+                </th>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>
+                    Tipo Enfermedad
+                  </p>
+                </th>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>Turno</p>
+                </th>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>Fecha</p>
+                </th>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>🐄 Ternero</p>
+                </th>
+                <th className='px-4 py-2 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-sm font-medium leading-none'>Acciones</p>
+                </th>
+              </tr>
+            </thead>
+            <tbody className='text-slate-300'>
+              {loading ? (
+                <tr>
+                  <td colSpan='8' className='px-4 py-8 text-center'>
+                    <div className='flex justify-center items-center'>
+                      <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500'></div>
+                      <span className='ml-2'>Cargando tratamientos...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : tratamientos.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan='8'
+                    className='px-4 py-8 text-center text-slate-400'
+                  >
+                    <div className='space-y-2'>
+                      <div>
+                        📭 No se encontraron tratamientos con los filtros
+                        aplicados
+                      </div>
+                      {(filtros.tipo_enfermedad || filtros.turno) && (
+                        <button
+                          onClick={limpiarFiltros}
+                          className='text-indigo-400 hover:text-indigo-300 underline text-sm'
+                        >
+                          Limpiar filtros para ver todos
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                tratamientos.map((tratamiento, index) => (
+                  <tr
+                    key={tratamiento.id_tratamiento}
+                    className='hover:bg-slate-600 transition-all duration-300'
+                  >
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      <p className='text-sm font-semibold'>
+                        #{tratamiento.id_tratamiento}
                       </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Nombre
+                    </td>
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      <div>
+                        <p className='text-sm font-medium text-indigo-300'>
+                          {tratamiento.nombre}
+                        </p>
+                        {index < 3 && (
+                          <span className='text-xs text-green-400'>
+                            ✨ Reciente
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      <p
+                        className='text-sm text-slate-300 max-w-xs truncate'
+                        title={tratamiento.descripcion}
+                      >
+                        {tratamiento.descripcion}
                       </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Descripción
+                    </td>
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getTipoEnfermedadColor(
+                          tratamiento.tipo_enfermedad
+                        )}`}
+                      >
+                        {getTipoEnfermedadEmoji(tratamiento.tipo_enfermedad)}{" "}
+                        {tratamiento.tipo_enfermedad || "Sin especificar"}
+                      </span>
+                    </td>
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getTurnoColor(
+                          tratamiento.turno
+                        )}`}
+                      >
+                        {getTurnoEmoji(tratamiento.turno)}{" "}
+                        {tratamiento.turno?.charAt(0).toUpperCase() +
+                          tratamiento.turno?.slice(1)}
+                      </span>
+                    </td>
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      <p className='text-sm'>
+                        📅 {formatearFecha(tratamiento.fecha_tratamiento)}
                       </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Tipo Enfermedad
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Turno
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Fecha
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        🐄 Ternero
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Acciones
-                      </p>
-                    </th>
+                    </td>
+
+                    {/* 🆕 AGREGAR ESTA CELDA */}
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      {tratamiento.ternero ? (
+                        <div className='text-sm'>
+                          <p className='font-medium text-green-400'>
+                            🐄 RP: {tratamiento.ternero.rp_ternero}
+                          </p>
+                          <p className='text-xs text-slate-400'>
+                            {tratamiento.ternero.nombre_ternero || "Sin nombre"}
+                          </p>
+                        </div>
+                      ) : (
+                        <span className='text-xs text-slate-500 italic'>
+                          Sin ternero asignado
+                        </span>
+                      )}
+                    </td>
+
+                    {/* 🆕 NUEVA: Columna Acciones */}
+                    <td className='px-4 py-2 border-b border-slate-700'>
+                      <div className='flex gap-2'>
+                        <button
+                          onClick={() => abrirModalEditar(tratamiento)}
+                          className='px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors'
+                          title='Editar tratamiento'
+                        >
+                          ✏️ Editar
+                        </button>
+                        <button
+                          onClick={() => abrirModalEliminar(tratamiento)}
+                          className='px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors'
+                          title='Eliminar tratamiento'
+                        >
+                          🗑️ Eliminar
+                        </button>
+                        {/* Aquí puedes agregar más botones como Editar */}
+                      </div>
+                    </td>
+                    {/* ❌ CELDA APLICACIONES ELIMINADA */}
                   </tr>
-                </thead>
-                <tbody className='text-slate-300'>
-                  {loading ? (
-                    <tr>
-                      <td colSpan='8' className='px-4 py-8 text-center'>
-                        <div className='flex justify-center items-center'>
-                          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500'></div>
-                          <span className='ml-2'>Cargando tratamientos...</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : tratamientos.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan='8'
-                        className='px-4 py-8 text-center text-slate-400'
-                      >
-                        <div className='space-y-2'>
-                          <div>
-                            📭 No se encontraron tratamientos con los filtros
-                            aplicados
-                          </div>
-                          {(filtros.tipo_enfermedad || filtros.turno) && (
-                            <button
-                              onClick={limpiarFiltros}
-                              className='text-indigo-400 hover:text-indigo-300 underline text-sm'
-                            >
-                              Limpiar filtros para ver todos
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    tratamientos.map((tratamiento, index) => (
-                      <tr
-                        key={tratamiento.id_tratamiento}
-                        className='hover:bg-slate-600 transition-all duration-300'
-                      >
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <p className='text-sm font-semibold'>
-                            #{tratamiento.id_tratamiento}
-                          </p>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <div>
-                            <p className='text-sm font-medium text-indigo-300'>
-                              {tratamiento.nombre}
-                            </p>
-                            {index < 3 && (
-                              <span className='text-xs text-green-400'>
-                                ✨ Reciente
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <p
-                            className='text-sm text-slate-300 max-w-xs truncate'
-                            title={tratamiento.descripcion}
-                          >
-                            {tratamiento.descripcion}
-                          </p>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${getTipoEnfermedadColor(
-                              tratamiento.tipo_enfermedad
-                            )}`}
-                          >
-                            {getTipoEnfermedadEmoji(
-                              tratamiento.tipo_enfermedad
-                            )}{" "}
-                            {tratamiento.tipo_enfermedad || "Sin especificar"}
-                          </span>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${getTurnoColor(
-                              tratamiento.turno
-                            )}`}
-                          >
-                            {getTurnoEmoji(tratamiento.turno)}{" "}
-                            {tratamiento.turno?.charAt(0).toUpperCase() +
-                              tratamiento.turno?.slice(1)}
-                          </span>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <p className='text-sm'>
-                            📅 {formatearFecha(tratamiento.fecha_tratamiento)}
-                          </p>
-                        </td>
-
-                        {/* 🆕 AGREGAR ESTA CELDA */}
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          {tratamiento.ternero ? (
-                            <div className='text-sm'>
-                              <p className='font-medium text-green-400'>
-                                🐄 RP: {tratamiento.ternero.rp_ternero}
-                              </p>
-                              <p className='text-xs text-slate-400'>
-                                {tratamiento.ternero.nombre_ternero ||
-                                  "Sin nombre"}
-                              </p>
-                            </div>
-                          ) : (
-                            <span className='text-xs text-slate-500 italic'>
-                              Sin ternero asignado
-                            </span>
-                          )}
-                        </td>
-
-                        {/* 🆕 NUEVA: Columna Acciones */}
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <div className='flex gap-2'>
-                            <button
-                              onClick={() => abrirModalEditar(tratamiento)}
-                              className='px-2 sm:px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors'
-                              title='Editar tratamiento'
-                            >
-                              ✏️ Editar
-                            </button>
-                            <button
-                              onClick={() => abrirModalEliminar(tratamiento)}
-                              className='px-2 sm:px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors'
-                              title='Eliminar tratamiento'
-                            >
-                              🗑️ Eliminar
-                            </button>
-                            {/* Aquí puedes agregar más botones como Editar */}
-                          </div>
-                        </td>
-                        {/* ❌ CELDA APLICACIONES ELIMINADA */}
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
 
         {/* Información adicional */}
         {!loading && tratamientos.length > 0 && (
-          <div className='mt-3 sm:mt-4 p-3 sm:p-4 bg-slate-700 rounded-lg'>
-            <h3 className='text-xs sm:text-sm font-bold text-slate-300 mb-2'>
+          <div className='mt-4 p-4 bg-slate-700 rounded-lg'>
+            <h3 className='text-sm font-bold text-slate-300 mb-2'>
               📋 Información:
             </h3>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-xs text-slate-400'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-400'>
               <div>
                 <p className='mb-1'>
                   <strong>💊 Tratamientos:</strong> Gestión completa de
@@ -779,11 +754,11 @@ const ListadoTratamiento = () => {
 
         {/* 🆕 NUEVO: Modal de Eliminación */}
         {modalEliminar.isOpen && (
-          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4'>
-            <div className='bg-white p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-md mx-2 sm:mx-4'>
+          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+            <div className='bg-white p-6 rounded-lg shadow-xl w-full max-w-md'>
               <div className='flex items-center gap-3 mb-4'>
                 <span className='text-red-600 text-2xl'>⚠️</span>
-                <h3 className='text-base sm:text-lg font-bold text-gray-800'>
+                <h3 className='text-lg font-bold text-gray-800'>
                   Confirmar Eliminación
                 </h3>
               </div>
@@ -831,11 +806,11 @@ const ListadoTratamiento = () => {
         {/* 🆕 NUEVO: Modal de Edición */}
         {/* 🆕 MODAL DE EDICIÓN - VERSION MEJORADA CON MEJOR CONTRASTE */}
         {modalEditar.isOpen && modalEditar.tratamiento && (
-          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto p-2 sm:p-4'>
-            <div className='bg-white p-4 sm:p-6 rounded-lg shadow-xl w-full max-w-2xl my-4 sm:my-8 mx-2 sm:mx-4 max-h-[90vh] overflow-y-auto'>
+          <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto'>
+            <div className='bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl my-8'>
               <div className='flex items-center gap-3 mb-4'>
                 <span className='text-blue-600 text-2xl'>✏️</span>
-                <h3 className='text-base sm:text-lg font-bold text-gray-800'>
+                <h3 className='text-lg font-bold text-gray-800'>
                   Editar Tratamiento
                 </h3>
               </div>
@@ -843,7 +818,7 @@ const ListadoTratamiento = () => {
               <div className='space-y-4 max-h-[70vh] overflow-y-auto pr-2'>
                 {/* Nombre */}
                 <div>
-                  <label className='block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2'>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Nombre *
                   </label>
                   <input
@@ -852,14 +827,14 @@ const ListadoTratamiento = () => {
                     onChange={(e) =>
                       handleCambioEditar("nombre", e.target.value)
                     }
-                    className='w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white text-xs sm:text-sm'
+                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white'
                     placeholder='Ej: Antibiótico Amoxicilina'
                   />
                 </div>
 
                 {/* Descripción */}
                 <div>
-                  <label className='block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2'>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
                     Descripción *
                   </label>
                   <textarea
@@ -868,15 +843,15 @@ const ListadoTratamiento = () => {
                       handleCambioEditar("descripcion", e.target.value)
                     }
                     rows='3'
-                    className='w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white resize-none text-xs sm:text-sm'
+                    className='w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white resize-none'
                     placeholder='Describe el tratamiento en detalle'
                   />
                 </div>
 
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                   {/* Tipo de Enfermedad */}
                   <div>
-                    <label className='block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2'>
+                    <label className='block text-sm font-medium text-gray-700 mb-1'>
                       Tipo de Enfermedad *
                     </label>
                     <input
@@ -885,14 +860,14 @@ const ListadoTratamiento = () => {
                       onChange={(e) =>
                         handleCambioEditar("tipo_enfermedad", e.target.value)
                       }
-                      className='w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white text-xs sm:text-sm'
+                      className='w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white'
                       placeholder='Ej: Diarrea bacteriana'
                     />
                   </div>
 
                   {/* Turno */}
                   <div>
-                    <label className='block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2'>
+                    <label className='block text-sm font-medium text-gray-700 mb-1'>
                       Turno *
                     </label>
                     <select
@@ -900,7 +875,7 @@ const ListadoTratamiento = () => {
                       onChange={(e) =>
                         handleCambioEditar("turno", e.target.value)
                       }
-                      className='w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white text-xs sm:text-sm'
+                      className='w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white'
                     >
                       <option value='mañana'>🌅 Mañana</option>
                       <option value='tarde'>🌆 Tarde</option>
@@ -908,10 +883,10 @@ const ListadoTratamiento = () => {
                   </div>
                 </div>
 
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                   {/* Fecha */}
                   <div>
-                    <label className='block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2'>
+                    <label className='block text-sm font-medium text-gray-700 mb-1'>
                       Fecha de Tratamiento *
                     </label>
                     <input
@@ -920,13 +895,13 @@ const ListadoTratamiento = () => {
                       onChange={(e) =>
                         handleCambioEditar("fecha_tratamiento", e.target.value)
                       }
-                      className='w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white text-xs sm:text-sm'
+                      className='w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white'
                     />
                   </div>
 
                   {/* Ternero */}
                   <div>
-                    <label className='block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2'>
+                    <label className='block text-sm font-medium text-gray-700 mb-1'>
                       🐄 Ternero (opcional)
                     </label>
                     <select
@@ -934,7 +909,7 @@ const ListadoTratamiento = () => {
                       onChange={(e) =>
                         handleCambioEditar("id_ternero", e.target.value)
                       }
-                      className='w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white text-xs sm:text-sm'
+                      className='w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 bg-white'
                     >
                       <option value=''>Sin ternero asignado</option>
                       {terneros.map((ternero) => (
@@ -973,14 +948,14 @@ const ListadoTratamiento = () => {
                 <button
                   onClick={cerrarModalEditar}
                   disabled={loadingEditar}
-                  className='flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-3 sm:px-4 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium text-xs sm:text-sm'
+                  className='flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium'
                 >
                   ❌ Cancelar
                 </button>
                 <button
                   onClick={guardarEdicion}
                   disabled={loadingEditar}
-                  className='flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 sm:px-4 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium text-xs sm:text-sm'
+                  className='flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium'
                 >
                   {loadingEditar ? (
                     <div className='flex items-center justify-center'>

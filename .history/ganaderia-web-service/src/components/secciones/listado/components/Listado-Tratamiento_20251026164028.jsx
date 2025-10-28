@@ -522,7 +522,7 @@ const ListadoTratamiento = () => {
               <select
                 value={filtros.turno}
                 onChange={(e) => handleFiltroChange("turno", e.target.value)}
-                className='w-full px-2 sm:px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500'
+                cclassName='w-full px-2 sm:px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white text-xs sm:text-smborder border-slate-500 rounded-md text-white focus:ring-2 focus:ring-indigo-500'
               >
                 {turnosTratamiento.map((turno) => (
                   <option key={turno.value} value={turno.value}>
@@ -536,7 +536,7 @@ const ListadoTratamiento = () => {
             <div className='flex items-end'>
               <button
                 onClick={limpiarFiltros}
-                className='w-full px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm rounded-md transition-colors'
+                cclassName='w-full px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm rounded-md hover:bg-red-700 text-white rounded-md transition-colors'
               >
                 🗑️ Limpiar Filtros
               </button>

@@ -516,13 +516,11 @@ const ListadoTratamiento = () => {
 
             {/* Filtro por Turno */}
             <div>
-              <label className='block text-xs sm:text-sm font-medium mb-2'>
-                Turno
-              </label>
+              <label className='block text-xs sm:text-sm font-medium mb-2'>Turno</label>
               <select
                 value={filtros.turno}
                 onChange={(e) => handleFiltroChange("turno", e.target.value)}
-                className='w-full px-2 sm:px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500'
+                cclassName='w-full px-2 sm:px-3 py-2 bg-slate-600 border border-slate-500 rounded-md text-white text-xs sm:text-smborder border-slate-500 rounded-md text-white focus:ring-2 focus:ring-indigo-500'
               >
                 {turnosTratamiento.map((turno) => (
                   <option key={turno.value} value={turno.value}>
@@ -536,7 +534,7 @@ const ListadoTratamiento = () => {
             <div className='flex items-end'>
               <button
                 onClick={limpiarFiltros}
-                className='w-full px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm rounded-md transition-colors'
+                cclassName='w-full px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm rounded-md hover:bg-red-700 text-white rounded-md transition-colors'
               >
                 🗑️ Limpiar Filtros
               </button>
@@ -560,190 +558,173 @@ const ListadoTratamiento = () => {
         <div className='overflow-x-auto -mx-3 sm:mx-0'>
           <div className='inline-block min-w-full align-middle'>
             <div className='overflow-hidden'>
-              <table className='w-full text-left table-auto min-w-max bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0 rounded-lg shadow-2xl'>
-                <thead className='bg-slate-900'>
-                  <tr>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        ID
+              <table className='w-full text-left table-automin-w-max bg-gradient-to-b from-gray-800 via-gray-700 to-gray-800 border-separate border-spacing-0 rounded-lg shadow-2xl'>
+            <thead className='bg-slate-900'>
+              <tr>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>ID</p>
+                </th>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>Nombre</p>
+                </th>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
+                    Descripción
+                  </p>
+                </th>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
+                    Tipo Enfermedad
+                  </p>
+                </th>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>Turno</p>
+                </th>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>Fecha</p>
+                </th>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>🐄 Ternero</p>
+                </th>
+                <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
+                  <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>Acciones</p>
+                </th>
+              </tr>
+            </thead>
+            <tbody className='text-slate-300'>
+              {loading ? (
+                <tr>
+                  <td colSpan='8' className='px-4 py-8 text-center'>
+                    <div className='flex justify-center items-center'>
+                      <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500'></div>
+                      <span className='ml-2'>Cargando tratamientos...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : tratamientos.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan='8'
+                    className='px-4 py-8 text-center text-slate-400'
+                  >
+                    <div className='space-y-2'>
+                      <div>
+                        📭 No se encontraron tratamientos con los filtros
+                        aplicados
+                      </div>
+                      {(filtros.tipo_enfermedad || filtros.turno) && (
+                        <button
+                          onClick={limpiarFiltros}
+                          className='text-indigo-400 hover:text-indigo-300 underline text-sm'
+                        >
+                          Limpiar filtros para ver todos
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                tratamientos.map((tratamiento, index) => (
+                  <tr
+                    key={tratamiento.id_tratamiento}
+                    className='hover:bg-slate-600 transition-all duration-300'
+                  >
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      <p className='text-sm font-semibold'>
+                        #{tratamiento.id_tratamiento}
                       </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Nombre
+                    </td>
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      <div>
+                        <p className='text-sm font-medium text-indigo-300'>
+                          {tratamiento.nombre}
+                        </p>
+                        {index < 3 && (
+                          <span className='text-xs text-green-400'>
+                            ✨ Reciente
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      <p
+                        className='text-sm text-slate-300 max-w-xs truncate'
+                        title={tratamiento.descripcion}
+                      >
+                        {tratamiento.descripcion}
                       </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Descripción
+                    </td>
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getTipoEnfermedadColor(
+                          tratamiento.tipo_enfermedad
+                        )}`}
+                      >
+                        {getTipoEnfermedadEmoji(tratamiento.tipo_enfermedad)}{" "}
+                        {tratamiento.tipo_enfermedad || "Sin especificar"}
+                      </span>
+                    </td>
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getTurnoColor(
+                          tratamiento.turno
+                        )}`}
+                      >
+                        {getTurnoEmoji(tratamiento.turno)}{" "}
+                        {tratamiento.turno?.charAt(0).toUpperCase() +
+                          tratamiento.turno?.slice(1)}
+                      </span>
+                    </td>
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      <p className='text-sm'>
+                        📅 {formatearFecha(tratamiento.fecha_tratamiento)}
                       </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Tipo Enfermedad
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Turno
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Fecha
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        🐄 Ternero
-                      </p>
-                    </th>
-                    <th className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-600 bg-slate-700'>
-                      <p className='text-xs sm:text-sm font-medium leading-none whitespace-nowrap'>
-                        Acciones
-                      </p>
-                    </th>
+                    </td>
+
+                    {/* 🆕 AGREGAR ESTA CELDA */}
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      {tratamiento.ternero ? (
+                        <div className='text-sm'>
+                          <p className='font-medium text-green-400'>
+                            🐄 RP: {tratamiento.ternero.rp_ternero}
+                          </p>
+                          <p className='text-xs text-slate-400'>
+                            {tratamiento.ternero.nombre_ternero || "Sin nombre"}
+                          </p>
+                        </div>
+                      ) : (
+                        <span className='text-xs text-slate-500 italic'>
+                          Sin ternero asignado
+                        </span>
+                      )}
+                    </td>
+
+                    {/* 🆕 NUEVA: Columna Acciones */}
+                    <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
+                      <div className='flex gap-2'>
+                        <button
+                          onClick={() => abrirModalEditar(tratamiento)}
+                          className='px-2 sm:px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors'
+                          title='Editar tratamiento'
+                        >
+                          ✏️ Editar
+                        </button>
+                        <button
+                          onClick={() => abrirModalEliminar(tratamiento)}
+                          className='px-2 sm:px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors'
+                          title='Eliminar tratamiento'
+                        >
+                          🗑️ Eliminar
+                        </button>
+                        {/* Aquí puedes agregar más botones como Editar */}
+                      </div>
+                    </td>
+                    {/* ❌ CELDA APLICACIONES ELIMINADA */}
                   </tr>
-                </thead>
-                <tbody className='text-slate-300'>
-                  {loading ? (
-                    <tr>
-                      <td colSpan='8' className='px-4 py-8 text-center'>
-                        <div className='flex justify-center items-center'>
-                          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500'></div>
-                          <span className='ml-2'>Cargando tratamientos...</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : tratamientos.length === 0 ? (
-                    <tr>
-                      <td
-                        colSpan='8'
-                        className='px-4 py-8 text-center text-slate-400'
-                      >
-                        <div className='space-y-2'>
-                          <div>
-                            📭 No se encontraron tratamientos con los filtros
-                            aplicados
-                          </div>
-                          {(filtros.tipo_enfermedad || filtros.turno) && (
-                            <button
-                              onClick={limpiarFiltros}
-                              className='text-indigo-400 hover:text-indigo-300 underline text-sm'
-                            >
-                              Limpiar filtros para ver todos
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    tratamientos.map((tratamiento, index) => (
-                      <tr
-                        key={tratamiento.id_tratamiento}
-                        className='hover:bg-slate-600 transition-all duration-300'
-                      >
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <p className='text-sm font-semibold'>
-                            #{tratamiento.id_tratamiento}
-                          </p>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <div>
-                            <p className='text-sm font-medium text-indigo-300'>
-                              {tratamiento.nombre}
-                            </p>
-                            {index < 3 && (
-                              <span className='text-xs text-green-400'>
-                                ✨ Reciente
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <p
-                            className='text-sm text-slate-300 max-w-xs truncate'
-                            title={tratamiento.descripcion}
-                          >
-                            {tratamiento.descripcion}
-                          </p>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${getTipoEnfermedadColor(
-                              tratamiento.tipo_enfermedad
-                            )}`}
-                          >
-                            {getTipoEnfermedadEmoji(
-                              tratamiento.tipo_enfermedad
-                            )}{" "}
-                            {tratamiento.tipo_enfermedad || "Sin especificar"}
-                          </span>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${getTurnoColor(
-                              tratamiento.turno
-                            )}`}
-                          >
-                            {getTurnoEmoji(tratamiento.turno)}{" "}
-                            {tratamiento.turno?.charAt(0).toUpperCase() +
-                              tratamiento.turno?.slice(1)}
-                          </span>
-                        </td>
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <p className='text-sm'>
-                            📅 {formatearFecha(tratamiento.fecha_tratamiento)}
-                          </p>
-                        </td>
-
-                        {/* 🆕 AGREGAR ESTA CELDA */}
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          {tratamiento.ternero ? (
-                            <div className='text-sm'>
-                              <p className='font-medium text-green-400'>
-                                🐄 RP: {tratamiento.ternero.rp_ternero}
-                              </p>
-                              <p className='text-xs text-slate-400'>
-                                {tratamiento.ternero.nombre_ternero ||
-                                  "Sin nombre"}
-                              </p>
-                            </div>
-                          ) : (
-                            <span className='text-xs text-slate-500 italic'>
-                              Sin ternero asignado
-                            </span>
-                          )}
-                        </td>
-
-                        {/* 🆕 NUEVA: Columna Acciones */}
-                        <td className='px-2 sm:px-3 md:px-4 py-2 sm:py-3 border-b border-slate-700'>
-                          <div className='flex gap-2'>
-                            <button
-                              onClick={() => abrirModalEditar(tratamiento)}
-                              className='px-2 sm:px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors'
-                              title='Editar tratamiento'
-                            >
-                              ✏️ Editar
-                            </button>
-                            <button
-                              onClick={() => abrirModalEliminar(tratamiento)}
-                              className='px-2 sm:px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors'
-                              title='Eliminar tratamiento'
-                            >
-                              🗑️ Eliminar
-                            </button>
-                            {/* Aquí puedes agregar más botones como Editar */}
-                          </div>
-                        </td>
-                        {/* ❌ CELDA APLICACIONES ELIMINADA */}
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
 
         {/* Información adicional */}

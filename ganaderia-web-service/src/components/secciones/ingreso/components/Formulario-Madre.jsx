@@ -274,7 +274,7 @@ const FormularioMadre = ({ setStep }) => {
                   required: "Este campo es obligatorio",
                 })}
                 placeholder='Observaciones sobre la madre (salud, comportamiento, etc.)'
-                rows={3}
+                rows={2} className="text-sm"
                 className={`w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
                   errors.observaciones ? "border-red-500" : "border-gray-300"
                 }`}

@@ -10,14 +10,14 @@ export default function EstablecimientoBadge() {
   // Si es admin y no ha seleccionado establecimiento
   if (userPayload?.rol === "admin" && !establecimientoActual) {
     return (
-      <div className='flex items-center gap-2 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold'>
+      <div className='flex items-center gap-1 sm:gap-2 bg-blue-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='w-4 h-4'
+          className='w-3 h-3 sm:w-4 sm:h-4'
         >
           <path
             strokeLinecap='round'
@@ -34,14 +34,14 @@ export default function EstablecimientoBadge() {
   if (userPayload?.rol === "admin" && establecimientoActual) {
     const nombreEstablecimiento = establecimientoActual === 1 ? "Norte" : "Sur";
     return (
-      <div className='flex items-center gap-2 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold'>
+      <div className='flex items-center gap-1 sm:gap-2 bg-purple-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='w-4 h-4'
+          className='w-3 h-3 sm:w-4 sm:h-4'
         >
           <path
             strokeLinecap='round'
@@ -63,7 +63,7 @@ export default function EstablecimientoBadge() {
 
     return (
       <div
-        className={`flex items-center gap-2 ${colorRol} text-white px-3 py-1 rounded-full text-sm font-semibold`}
+        className={`flex items-center gap-1 sm:gap-2 ${colorRol} text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold`}
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -71,7 +71,7 @@ export default function EstablecimientoBadge() {
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='w-4 h-4'
+          className='w-3 h-3 sm:w-4 sm:h-4'
         >
           <path
             strokeLinecap='round'

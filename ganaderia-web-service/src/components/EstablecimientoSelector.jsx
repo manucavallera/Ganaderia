@@ -51,18 +51,18 @@ export default function EstablecimientoSelector() {
   };
 
   if (loading) {
-    return <div className='text-white text-sm'>Cargando...</div>;
+    return <div className='text-white text-xs sm:text-sm'>Cargando...</div>;
   }
 
   return (
-    <div className='flex items-center gap-2'>
+    <div className='flex items-center gap-1 sm:gap-2'>
       <svg
         xmlns='http://www.w3.org/2000/svg'
         fill='none'
         viewBox='0 0 24 24'
         strokeWidth={1.5}
         stroke='currentColor'
-        className='w-5 h-5 text-white'
+        className='w-4 h-4 sm:w-5 sm:h-5 text-white'
       >
         <path
           strokeLinecap='round'
@@ -74,7 +74,7 @@ export default function EstablecimientoSelector() {
       <select
         value={establecimientoActual || ""}
         onChange={handleChange}
-        className='bg-green-500 text-white border border-white rounded px-3 py-1 text-sm font-semibold hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-white'
+        className='bg-green-500 text-white border border-white rounded px-2 sm:px-3 py-1 text-xs sm:text-sm font-semibold hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-white'
       >
         <option value=''>📊 Todos los Establecimientos</option>
         {establecimientos.map((est) => (
@@ -86,7 +86,7 @@ export default function EstablecimientoSelector() {
 
       {/* Contador de establecimientos activos */}
       {establecimientos.length > 0 && (
-        <span className='text-white text-xs bg-green-600 px-2 py-1 rounded-full'>
+        <span className='hidden sm:inline-block text-white text-xs bg-green-600 px-2 py-1 rounded-full'>
           {establecimientos.length}
         </span>
       )}

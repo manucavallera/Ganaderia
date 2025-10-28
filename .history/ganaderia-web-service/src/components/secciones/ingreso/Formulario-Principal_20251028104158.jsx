@@ -14,12 +14,12 @@ const FormularioPrincipal = () => {
   return (
     <>
       {step && <ButtonSelect setStep={setStep} />}
-      {/* ✅ Steps actualizados después de eliminar Tratamiento Ternero */}
+      {/* ⬅️ ELIMINADO: {step === 1 && <FormularioPadre setStep={setStep} />} */}
       {step === 1 && <FormularioMadre setStep={setStep} />}
       {step === 2 && <FormularioTernero setStep={setStep} />}
       {step === 3 && <FormularioEvento setStep={setStep} />}
       {step === 4 && <FormularioTratamiento setStep={setStep} />}
-      {step === 5 && <FormularioDiarreaTernero setStep={setStep} />}
+      {step === 6 && <FormularioDiarreaTernero setStep={setStep} />}
     </>
   );
 };

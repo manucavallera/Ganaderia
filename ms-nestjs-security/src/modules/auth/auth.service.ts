@@ -109,7 +109,9 @@ export class AuthService {
     console.log(JSON.stringify(payload, null, 2));
     console.log('='.repeat(60) + '\n');
 
-    const token = this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload, {
+      expiresIn: '30d', // ⏰ Token válido por 30 días
+    });
 
     // 🆕 LOG 3: Token generado
     console.log('🔑 [SECURITY] TOKEN GENERADO:');

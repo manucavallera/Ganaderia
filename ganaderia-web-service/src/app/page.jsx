@@ -30,7 +30,7 @@ const Home = () => {
         <div className='flex items-center justify-center min-h-screen bg-gray-100'>
           <div className='text-center'>
             <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-green-700 mx-auto mb-4'></div>
-            <p className='text-gray-600'>Cargando...</p>
+            <p className='text-gray-600 text-sm sm:text-base'>Cargando...</p>
           </div>
         </div>
       }
@@ -38,17 +38,17 @@ const Home = () => {
       {statusSessionUser === false && (
         <div className='bg-gray-100 text-gray-900 min-h-screen'>
           {/* Header Section */}
-          <header className='bg-green-700 p-6 shadow-md'>
-            <div className='container mx-auto flex justify-between items-center'>
-              <h1 className='text-3xl font-bold text-white'>
-                Sistema de Gestión Ganadera
+          <header className='bg-green-700 p-3 sm:p-4 md:p-6 shadow-md'>
+            <div className='container mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0'>
+              <h1 className='text-xl sm:text-2xl md:text-3xl font-bold text-white text-center sm:text-left'>
+                TerneData
               </h1>
-              <nav>
-                <ul className='flex space-x-6'>
+              <nav className='w-full sm:w-auto'>
+                <ul className='flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6'>
                   <li>
                     <button
                       onClick={() => handleScroll("inicio")}
-                      className='text-white hover:text-green-300'
+                      className='text-white hover:text-green-300 text-sm sm:text-base'
                     >
                       Inicio
                     </button>
@@ -56,7 +56,7 @@ const Home = () => {
                   <li>
                     <button
                       onClick={() => handleScroll("servicios")}
-                      className='text-white hover:text-green-300'
+                      className='text-white hover:text-green-300 text-sm sm:text-base'
                     >
                       Servicios
                     </button>
@@ -64,7 +64,7 @@ const Home = () => {
                   <li>
                     <button
                       onClick={() => handleScroll("acerca")}
-                      className='text-white hover:text-green-300'
+                      className='text-white hover:text-green-300 text-sm sm:text-base'
                     >
                       Acerca de
                     </button>
@@ -72,7 +72,7 @@ const Home = () => {
                   <li>
                     <button
                       onClick={() => handleScroll("contacto")}
-                      className='text-white hover:text-green-300'
+                      className='text-white hover:text-green-300 text-sm sm:text-base'
                     >
                       Contacto
                     </button>
@@ -83,27 +83,27 @@ const Home = () => {
           </header>
 
           {/* Main Content Section */}
-          <main className='py-12'>
+          <main className='py-6 sm:py-8 md:py-12 px-3 sm:px-4'>
             <div className='container mx-auto text-center'>
               <section id='inicio'>
-                <h2 className='text-4xl text-green-700 font-semibold mb-4'>
-                  Bienvenidos al Sistema de Gestión Ganadera
+                <h2 className='text-2xl sm:text-3xl md:text-4xl text-green-700 font-semibold mb-3 sm:mb-4'>
+                  Bienvenidos a TerneData
                 </h2>
-                <p className='text-lg text-gray-700 mb-8'>
+                <p className='text-sm sm:text-base md:text-lg text-gray-700 mb-6 sm:mb-8 px-3 sm:px-0'>
                   Administra tu producción ganadera de forma eficiente. Consulta
                   registros de terneros, madres y eventos importantes.
                 </p>
               </section>
 
               {/* Highlights */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8'>
                 <section
                   id='servicios'
-                  className='bg-green-800 p-6 rounded-lg shadow-lg text-white'
+                  className='bg-green-800 p-4 sm:p-5 md:p-6 rounded-lg shadow-lg text-white'
                 >
-                  <h3 className='text-2xl font-semibold flex items-center'>
+                  <h3 className='text-lg sm:text-xl md:text-2xl font-semibold flex items-center justify-center sm:justify-start'>
                     <svg
-                      className='w-6 h-6 mr-2'
+                      className='w-5 h-5 sm:w-6 sm:h-6 mr-2'
                       fill='none'
                       stroke='currentColor'
                       strokeWidth='2'
@@ -118,15 +118,15 @@ const Home = () => {
                     </svg>
                     Registro de Ganado
                   </h3>
-                  <p className='mt-4'>
+                  <p className='mt-3 sm:mt-4 text-sm sm:text-base'>
                     Lleva un control detallado de cada animal en tu establo con
                     nuestra plataforma.
                   </p>
                 </section>
-                <section className='bg-green-800 p-6 rounded-lg shadow-lg text-white'>
-                  <h3 className='text-2xl font-semibold flex items-center'>
+                <section className='bg-green-800 p-4 sm:p-5 md:p-6 rounded-lg shadow-lg text-white'>
+                  <h3 className='text-lg sm:text-xl md:text-2xl font-semibold flex items-center justify-center sm:justify-start'>
                     <svg
-                      className='w-6 h-6 mr-2'
+                      className='w-5 h-5 sm:w-6 sm:h-6 mr-2'
                       fill='none'
                       stroke='currentColor'
                       strokeWidth='2'
@@ -141,18 +141,18 @@ const Home = () => {
                     </svg>
                     Eventos y Seguimiento
                   </h3>
-                  <p className='mt-4'>
+                  <p className='mt-3 sm:mt-4 text-sm sm:text-base'>
                     Registra nacimientos, vacunaciones y otros eventos
                     importantes en tu ganadería.
                   </p>
                 </section>
                 <section
                   id='acerca'
-                  className='bg-green-800 p-6 rounded-lg shadow-lg text-white'
+                  className='bg-green-800 p-4 sm:p-5 md:p-6 rounded-lg shadow-lg text-white'
                 >
-                  <h3 className='text-2xl font-semibold flex items-center'>
+                  <h3 className='text-lg sm:text-xl md:text-2xl font-semibold flex items-center justify-center sm:justify-start'>
                     <svg
-                      className='w-6 h-6 mr-2'
+                      className='w-5 h-5 sm:w-6 sm:h-6 mr-2'
                       fill='none'
                       stroke='currentColor'
                       strokeWidth='2'
@@ -167,7 +167,7 @@ const Home = () => {
                     </svg>
                     Producción y Reportes
                   </h3>
-                  <p className='mt-4'>
+                  <p className='mt-3 sm:mt-4 text-sm sm:text-base'>
                     Obtén informes detallados sobre la producción y salud de tu
                     ganado.
                   </p>
@@ -177,16 +177,16 @@ const Home = () => {
           </main>
 
           {/* Acerca de */}
-          <section id='acerca' className='bg-green-700 text-white py-12'>
+          <section id='acerca' className='bg-green-700 text-white py-8 sm:py-10 md:py-12 px-3 sm:px-4'>
             <div className='container mx-auto text-center'>
-              <h2 className='text-3xl font-semibold mb-4 flex items-center justify-center'>
+              <h2 className='text-2xl sm:text-3xl font-semibold mb-3 sm:mb-4 flex items-center justify-center'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-8 h-8 mr-2'
+                  className='w-6 h-6 sm:w-8 sm:h-8 mr-2'
                 >
                   <path
                     strokeLinecap='round'
@@ -196,7 +196,7 @@ const Home = () => {
                 </svg>
                 Acerca de Nosotros
               </h2>
-              <p className='text-lg max-w-2xl mx-auto'>
+              <p className='text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-3 sm:px-0'>
                 Este proyecto es un sistema de gestión de terneros para
                 ganaderos, específicamente enfocado en el registro y seguimiento
                 del crecimiento, salud y eventos de los terneros desde su
@@ -207,16 +207,16 @@ const Home = () => {
           </section>
 
           {/* Contacto */}
-          <section id='contacto' className='bg-white text-gray-900 py-12'>
+          <section id='contacto' className='bg-white text-gray-900 py-8 sm:py-10 md:py-12 px-3 sm:px-4'>
             <div className='container mx-auto text-center'>
-              <h2 className='text-3xl font-semibold text-green-700 mb-4 flex items-center justify-center'>
+              <h2 className='text-2xl sm:text-3xl font-semibold text-green-700 mb-3 sm:mb-4 flex items-center justify-center'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-8 h-8 mr-2'
+                  className='w-6 h-6 sm:w-8 sm:h-8 mr-2'
                 >
                   <path
                     strokeLinecap='round'
@@ -226,29 +226,30 @@ const Home = () => {
                 </svg>
                 Contacto
               </h2>
-              <p className='text-lg max-w-2xl mx-auto mb-8'>
+              <p className='text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-6 sm:mb-8 px-3 sm:px-0'>
                 ¿Tienes preguntas o necesitas más información? Contáctanos y con
                 gusto resolveremos tus inquietudes.
               </p>
               <div className='flex justify-center'>
-                <form className='bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-lg'>
+                <form className='bg-gray-100 p-4 sm:p-5 md:p-6 rounded-lg shadow-lg w-full max-w-lg'>
                   <input
                     type='text'
                     placeholder='Nombre'
-                    className='w-full p-2 mb-4 border border-gray-300 rounded-lg'
+                    className='w-full p-2 sm:p-3 mb-3 sm:mb-4 border border-gray-300 rounded-lg text-sm sm:text-base'
                   />
                   <input
                     type='email'
                     placeholder='Correo Electrónico'
-                    className='w-full p-2 mb-4 border border-gray-300 rounded-lg'
+                    className='w-full p-2 sm:p-3 mb-3 sm:mb-4 border border-gray-300 rounded-lg text-sm sm:text-base'
                   />
                   <textarea
                     placeholder='Mensaje'
-                    className='w-full p-2 mb-4 border border-gray-300 rounded-lg'
+                    className='w-full p-2 sm:p-3 mb-3 sm:mb-4 border border-gray-300 rounded-lg text-sm sm:text-base'
+                    rows='3'
                   ></textarea>
                   <button
                     type='submit'
-                    className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                    className='w-full py-2 sm:py-3 bg-indigo-600 text-white text-sm sm:text-base font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                   >
                     Enviar
                   </button>
@@ -258,12 +259,12 @@ const Home = () => {
           </section>
 
           {/* Redes Sociales */}
-          <section className='bg-green-400 p-10 rounded-lg shadow-md mt-12 text-white'>
-            <h2 className='text-3xl font-semibold mb-4'>Contáctanos</h2>
-            <p className='text-lg mb-6'>
+          <section className='bg-green-400 p-6 sm:p-8 md:p-10 rounded-lg shadow-md mt-8 sm:mt-10 md:mt-12 text-white mx-3 sm:mx-4'>
+            <h2 className='text-2xl sm:text-3xl font-semibold mb-3 sm:mb-4 text-center'>Contáctanos</h2>
+            <p className='text-sm sm:text-base md:text-lg mb-4 sm:mb-6 text-center'>
               ¡Síguenos en nuestras redes sociales o contáctanos por correo!
             </p>
-            <div className='flex justify-center space-x-6 text-2xl'>
+            <div className='flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 text-base sm:text-lg md:text-2xl'>
               <a
                 href='https://facebook.com'
                 target='_blank'
@@ -278,7 +279,7 @@ const Home = () => {
                 rel='noopener noreferrer'
                 className='hover:text-gray-300'
               >
-                🐦 Twitter
+                � Twitter
               </a>
               <a
                 href='https://instagram.com'

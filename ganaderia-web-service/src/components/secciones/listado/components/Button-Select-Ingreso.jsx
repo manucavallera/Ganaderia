@@ -57,17 +57,6 @@ const ButtonSelectListado = ({ setStep }) => {
             className='block text-lg group-hover:text-white'
             onClick={() => handleNext(5)}
           >
-            Tratamiento Terneros
-          </b>
-        </li>
-      </ul>
-
-      <ul className='border-green-600 hover:border-green-400 hover:bg-green-600 group flex-1 sm:flex-none -skew-x-[30deg] transform border mb-4 hover:shadow-xl hover:scale-105 transition-all duration-300'>
-        <li className='m-4 skew-x-[30deg] transform bg-transparent px-9 py-4 text-center first-letter:uppercase cursor-pointer'>
-          <b
-            className='block text-lg group-hover:text-white'
-            onClick={() => handleNext(6)}
-          >
             Diarrea Terneros
           </b>
         </li>
@@ -78,7 +67,7 @@ const ButtonSelectListado = ({ setStep }) => {
         <li className='m-4 skew-x-[30deg] transform bg-transparent px-9 py-4 text-center first-letter:uppercase cursor-pointer'>
           <b
             className='block text-lg group-hover:text-white'
-            onClick={() => handleNext(7)}
+            onClick={() => handleNext(6)}
           >
             Resumen Salud
           </b>
