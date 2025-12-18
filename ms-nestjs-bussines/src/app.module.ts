@@ -10,7 +10,6 @@ import { MadresModule } from './modules/madres/madres.module';
 import { TernerosModule } from './modules/terneros/terneros.module';
 import { EventosModule } from './modules/eventos/eventos.module';
 import { TratamientosModule } from './modules/tratamientos/tratamientos.module';
-// import { TernerosTratamientosModule } from './modules/terneros-tratamientos/terneros-tratamientos.module'; // ⚠️ COMENTADO: Módulo legacy con errores
 import { DiarreaTernerosModule } from './modules/diarrea-terneros/diarrea-terneros.module';
 import { ResumenSaludModule } from './modules/resumen-salud/resumen-salud.module';
 import { EstablecimientosModule } from './modules/establecimientos/establecimientos.module';
@@ -23,6 +22,7 @@ import { RodeosModule } from './modules/rodeos/rodeos.module';
       isGlobal: true,
       load: [configuration],
     }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -35,19 +35,25 @@ import { RodeosModule } from './modules/rodeos/rodeos.module';
         database: configService.get<string>('database.name'),
         synchronize: false,
         autoLoadEntities: true,
+
+        // 🔑 CLAVE PARA RENDER
+        ssl:
+          process.env.ENTORNO_ENV === 'produccion'
+            ? { rejectUnauthorized: false }
+            : false,
       }),
     }),
+
     UsersModule,
     AuthModule,
     MadresModule,
     TernerosModule,
     EventosModule,
     TratamientosModule,
-    // TernerosTratamientosModule, // ⚠️ COMENTADO: Módulo legacy con errores
     DiarreaTernerosModule,
     ResumenSaludModule,
     EstablecimientosModule,
-    RodeosModule, // ⬅️ AGREGAR ESTO
+    RodeosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

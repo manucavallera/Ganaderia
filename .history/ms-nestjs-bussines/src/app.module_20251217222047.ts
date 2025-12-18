@@ -10,10 +10,10 @@ import { MadresModule } from './modules/madres/madres.module';
 import { TernerosModule } from './modules/terneros/terneros.module';
 import { EventosModule } from './modules/eventos/eventos.module';
 import { TratamientosModule } from './modules/tratamientos/tratamientos.module';
-import { TernerosTratamientosModule } from './modules/terneros-tratamientos/terneros-tratamientos.module';
 import { DiarreaTernerosModule } from './modules/diarrea-terneros/diarrea-terneros.module';
 import { ResumenSaludModule } from './modules/resumen-salud/resumen-salud.module';
-// ⬅️ ELIMINADO: import { PadresModule } from './modules/padres/padres.module';
+import { EstablecimientosModule } from './modules/establecimientos/establecimientos.module';
+import { RodeosModule } from './modules/rodeos/rodeos.module';
 
 @Module({
   imports: [
@@ -22,6 +22,7 @@ import { ResumenSaludModule } from './modules/resumen-salud/resumen-salud.module
       isGlobal: true,
       load: [configuration],
     }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -32,21 +33,27 @@ import { ResumenSaludModule } from './modules/resumen-salud/resumen-salud.module
         username: configService.get<string>('database.username'),
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.name'),
-        synchronize: true, // Solo para desarrollo, usa false en producción
+        synchronize: false,
         autoLoadEntities: true,
+
+        // 🔑 CLAVE PARA RENDER
+        ssl:
+          process.env.ENTORNO_ENV === 'produccion'
+            ? { rejectUnauthorized: false }
+            : false,
       }),
     }),
+
     UsersModule,
     AuthModule,
-    // ⬅️ ELIMINADO: PadresModule,
     MadresModule,
     TernerosModule,
     EventosModule,
     TratamientosModule,
-    TernerosTratamientosModule,
     DiarreaTernerosModule,
     ResumenSaludModule,
-    EstablecimientosModule, // ⬅️ AGREGAR ESTA LÍNEA
+    EstablecimientosModule,
+    RodeosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
