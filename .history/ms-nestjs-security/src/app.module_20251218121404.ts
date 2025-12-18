@@ -6,6 +6,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { MadresModule } from './modules/madres/madres.module';
+import { TernerosModule } from './modules/terneros/terneros.module';
+import { EventosModule } from './modules/eventos/eventos.module';
+import { TratamientosModule } from './modules/tratamientos/tratamientos.module';
+import { DiarreaTernerosModule } from './modules/diarrea-terneros/diarrea-terneros.module';
+import { ResumenSaludModule } from './modules/resumen-salud/resumen-salud.module';
+import { EstablecimientosModule } from './modules/establecimientos/establecimientos.module';
+import { RodeosModule } from './modules/rodeos/rodeos.module';
 
 @Module({
   imports: [
@@ -14,6 +22,7 @@ import { AuthModule } from './modules/auth/auth.module';
       isGlobal: true,
       load: [configuration],
     }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,16 +33,27 @@ import { AuthModule } from './modules/auth/auth.module';
         username: configService.get<string>('database.username'),
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.name'),
-        synchronize: false, // Mantener false en producción
+        synchronize: false,
         autoLoadEntities: true,
+
+        // 🔑 OBLIGATORIO PARA RENDER
         ssl:
-          configService.get<string>('ENTORNO_ENV') === 'produccion'
+          process.env.ENTORNO_ENV === 'produccion'
             ? { rejectUnauthorized: false }
             : false,
       }),
     }),
+
     UsersModule,
     AuthModule,
+    MadresModule,
+    TernerosModule,
+    EventosModule,
+    TratamientosModule,
+    DiarreaTernerosModule,
+    ResumenSaludModule,
+    EstablecimientosModule,
+    RodeosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,9 +7,6 @@ import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 
-
-
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,8 +24,12 @@ import { AuthModule } from './modules/auth/auth.module';
         username: configService.get<string>('database.username'),
         password: configService.get<string>('database.password'),
         database: configService.get<string>('database.name'),
-        synchronize: true, // Solo para desarrollo, usa false en producción
+        synchronize: false, // Mantener false en producción
         autoLoadEntities: true,
+        ssl:
+          configService.get<string>('ENTORNO_ENV') === 'produccion'
+            ? { rejectUnauthorized: false }
+            : false,
       }),
     }),
     UsersModule,
